@@ -1,6 +1,6 @@
-# updated 2019/02/01
+# updated 2019/02/01 from BeeX
 # add support for [SLES12SP4 FOR SAP] 
-# updated 2019/02/01
+# updated 2019/02/01 from BeeX
 # quickstart-sap-hana
 ## SAP HANA on the AWS Cloud
 
