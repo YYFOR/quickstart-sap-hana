@@ -1,3 +1,6 @@
+# updated 2019/02/01
+# add support for [SLES12SP4 FOR SAP] 
+# updated 2019/02/01
 # quickstart-sap-hana
 ## SAP HANA on the AWS Cloud
 
