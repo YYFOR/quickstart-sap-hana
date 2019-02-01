@@ -138,7 +138,7 @@
         "MyOS": {
             "Type": "String",
             "Description": "Operating system (SLES or RHEL) and version for master and worker nodes.",
-            "Default": "SuSELinux12SP3ForSAP",
+            "Default": "SuSELinux12SP4ForSAP",
             "AllowedValues": [
                 "RedHatLinux73ForSAP",
                 "RedHatLinux75ForSAP",
@@ -149,6 +149,7 @@
                 "SuSELinux12SP1ForSAP",
                 "SuSELinux12SP2ForSAP",
                 "SuSELinux12SP3ForSAP",
+                "SuSELinux12SP4ForSAP",
                 "SuSELinux12SP1ForSAP-BYOS",
                 "SuSELinux12SP2ForSAP-BYOS",
                 "SuSELinux12SP3ForSAP-BYOS"
@@ -796,6 +797,9 @@
             "SuSELinux12SP3": {
                 "Code": "SLES12SP3HVM"
             },
+            "SuSELinux12SP4": {
+                "Code": "SLES12SP4HVM"
+            },
             "SuSELinux15": {
                 "Code": "SLES15HVM"
             },
@@ -807,6 +811,9 @@
             },
             "SuSELinux12SP3ForSAP": {
                 "Code": "SLES12SP3SAPHVM"
+            },
+            "SuSELinux12SP4ForSAP": {
+                "Code": "SLES12SP4SAPHVM"
             },
             "SuSELinux15ForSAP": {
                 "Code": "SLES15SAPHVM"
@@ -834,10 +841,12 @@
                 "SLES12SP1HVM": "suse-sles-12-sp1-v20161021-hvm-ssd-x86_64",
                 "SLES12SP2HVM": "suse-sles-12-sp2-v20170620-hvm-ssd-x86_64",
                 "SLES12SP3HVM": "suse-sles-12-sp3-v20181004-hvm-ssd-x86_64",
+                "SLES12SP4HVM": "suse-sles-12-sp4-v20181212-hvm-ssd-x86_64",
                 "SLES15HVM": "suse-sles-15-v20180806-hvm-ssd-x86_64",
                 "SLES12SP1SAPHVM": "suse-sles-sap-12-sp1-v20171121-hvm-ssd-x86_64-f0188081-b780-4ee4-aef6-cbcb063fd11e-ami-8bac24f1.4",
                 "SLES12SP2SAPHVM": "suse-sles-sap-12-sp2-v20180706-hvm-ssd-x86_64-e3458d64-5c36-4577-bd98-0ee19e3eaeec-ami-3ac5ea45.4",
                 "SLES12SP3SAPHVM": "suse-sles-sap-12-sp3-v20180814-hvm-ssd-x86_64-da7aa9c3-97db-4573-89a6-7fe7348d90b0-ami-0df5b06332b816a8e.4",
+                "SLES12SP4SAPHVM": "suse-sles-sap-12-sp4-v20181212-hvm-ssd-x86_64-8f7bb679-fb90-4446-aa80-9b6cfd834710-ami-015bf44384c484ccb.4",
                 "SLES15SAPHVM": "suse-sles-sap-15-v20180806-hvm-ssd-x86_64-6a4bc5af-a084-4f96-8402-5cd249e9091d-ami-06aee2e6db735d4f4.4",
                 "SLES12SP1SAPBYOSHVM": "suse-sles-sap-12-sp1-byos-v20170123-hvm-ssd-x86_64",
                 "SLES12SP2SAPBYOSHVM": "suse-sles-sap-12-sp2-byos-v20180816-hvm-ssd-x86_64",
@@ -856,8 +865,10 @@
                 "SLES12SP2SAPBYOSHVM": "ami-0fcd0e48bd60c9ee6",
                 "SLES12SP2SAPHVM": "ami-322e43df",
                 "SLES12SP3HVM": "ami-050f5170e43607893",
+                "SLES12SP4HVM": "ami-0422285172d16dc72",
                 "SLES12SP3SAPBYOSHVM": "ami-0b0ded1fd5d53c9e9",
                 "SLES12SP3SAPHVM": "ami-05e66d665f69082c4",
+                "SLES12SP4SAPHVM": "ami-0ec6698d9e168a529",
                 "SLES15HVM": "ami-19532af4",
                 "SLES15SAPHVM": "ami-04006981f43b284b9",
                 "SLES15SAPBYOSHVM": "ami-08a0c7ede57aee6a3",
@@ -1153,6 +1164,7 @@
                 "BucketPolicy"
             ],
             "Type": "AWS::CloudTrail::Trail",
+            "DeletionPolicy" : "Retain",
             "Condition": "IfLogging",
             "Properties": {
                 "IncludeGlobalServiceEvents": "true",
@@ -1167,6 +1179,7 @@
         },
         "BucketPolicy": {
             "Type": "AWS::S3::BucketPolicy",
+            "DeletionPolicy" : "Retain",
             "Condition": "IfLogging",
             "Properties": {
                 "Bucket": {
@@ -1284,6 +1297,7 @@
                 "AWSConfigIAMRole"
             ],
             "Type": "AWS::Config::ConfigurationRecorder",
+            "DeletionPolicy" : "Retain",
             "Condition": "IfLogging",
             "Properties": {
                 "Name": "HANAQuickStart-ConfigRecord",
@@ -1311,6 +1325,7 @@
         },
         "DeliveryChannel": {
             "Type": "AWS::Config::DeliveryChannel",
+            "DeletionPolicy" : "Retain",
             "Condition": "IfLogging",
             "Properties": {
                 "ConfigSnapshotDeliveryProperties": {
@@ -1323,6 +1338,7 @@
         },
         "AWSConfigIAMRole": {
             "Type": "AWS::IAM::Role",
+            "DeletionPolicy" : "Retain",
             "Condition": "IfLogging",
             "Properties": {
                 "Path": "/",
@@ -1348,6 +1364,7 @@
         },
         "DeploymentInterruptQ": {
             "Type": "AWS::SQS::Queue",
+            "DeletionPolicy" : "Retain",
             "Properties": {
                 "DelaySeconds": 0,
                 "VisibilityTimeout": 0
@@ -1355,6 +1372,7 @@
         },
         "HANAMasterInterface": {
             "Type": "AWS::EC2::NetworkInterface",
+            "DeletionPolicy" : "Retain",
             "Properties": {
                 "Description": "Network Interface for HANA Master",
                 "SubnetId": {
@@ -1376,6 +1394,7 @@
         },
         "HANAWorker1Interface": {
             "Type": "AWS::EC2::NetworkInterface",
+            "DeletionPolicy" : "Retain",
             "Condition": "TwoOrMoreNodes",
             "Properties": {
                 "SubnetId": {
@@ -1398,6 +1417,7 @@
         },
         "HANAWorker2Interface": {
             "Type": "AWS::EC2::NetworkInterface",
+            "DeletionPolicy" : "Retain",
             "Condition": "ThreeOrMoreNodes",
             "Properties": {
                 "SubnetId": {
@@ -1420,6 +1440,7 @@
         },
         "HANAWorker3Interface": {
             "Type": "AWS::EC2::NetworkInterface",
+            "DeletionPolicy" : "Retain",
             "Condition": "FourOrMoreNodes",
             "Properties": {
                 "SubnetId": {
@@ -1442,6 +1463,7 @@
         },
         "HANAWorker4Interface": {
             "Type": "AWS::EC2::NetworkInterface",
+            "DeletionPolicy" : "Retain",
             "Condition": "FiveOrMoreNodes",
             "Properties": {
                 "SubnetId": {
@@ -1464,6 +1486,7 @@
         },
         "HANAWorker5Interface": {
             "Type": "AWS::EC2::NetworkInterface",
+            "DeletionPolicy" : "Retain",
             "Condition": "SixOrMoreNodes",
             "Properties": {
                 "SubnetId": {
@@ -1486,6 +1509,7 @@
         },
         "HANASecurityGroup": {
             "Type": "AWS::EC2::SecurityGroup",
+            "DeletionPolicy" : "Retain",
             "Properties": {
                 "GroupDescription": "Enable external access to the HANA Master and allow communication from slave instances",
                 "VpcId": {
@@ -1825,6 +1849,7 @@
         },
         "HANASecurityGroupUpdate": {
             "Type": "AWS::EC2::SecurityGroupIngress",
+            "DeletionPolicy" : "Retain",
             "Condition": "IfAppSubnet",
             "Properties": {
                 "CidrIp": {
@@ -1863,6 +1888,7 @@
         },
         "HANASlaveSG": {
             "Type": "AWS::EC2::SecurityGroup",
+            "DeletionPolicy" : "Retain",
             "Condition": "TwoOrMoreNodes",
             "Properties": {
                 "GroupDescription": "Enable communication between the master and slave instances",
@@ -2013,6 +2039,7 @@
         },
         "HANAIAMRole": {
             "Type": "AWS::IAM::Role",
+            "DeletionPolicy" : "Retain",
             "Properties": {
                 "AssumeRolePolicyDocument": {
                     "Statement": [
@@ -2087,6 +2114,7 @@
         },
         "HANAIAMProfile": {
             "Type": "AWS::IAM::InstanceProfile",
+            "DeletionPolicy" : "Retain",
             "Properties": {
                 "Path": "/",
                 "Roles": [
@@ -2098,6 +2126,7 @@
         },
         "WaitForHANAInstall": {
             "Type": "AWS::CloudFormation::WaitCondition",
+            "DeletionPolicy" : "Retain",
             "DependsOn": "HANAMasterInstance",
             "Properties": {
                 "Handle": {
@@ -2112,6 +2141,7 @@
         },
         "RDPInstanceRootRole": {
             "Condition": "NeedWindowsInstance",
+            "DeletionPolicy" : "Retain",
             "Type": "AWS::IAM::Role",
             "Properties": {
                 "AssumeRolePolicyDocument": {
@@ -2278,6 +2308,7 @@
         "RDPProfile": {
             "Condition": "NeedWindowsInstance",
             "Type": "AWS::IAM::InstanceProfile",
+            "DeletionPolicy" : "Retain",
             "Properties": {
                 "Path": "/",
                 "Roles": [
@@ -2289,6 +2320,7 @@
         },
         "RDPSecurityGroup": {
             "Condition": "NeedWindowsInstance",
+            "DeletionPolicy" : "Retain",
             "Type": "AWS::EC2::SecurityGroup",
             "Properties": {
                 "GroupDescription": "RDP Instance security group",
@@ -2318,6 +2350,7 @@
         "RDPEIP": {
             "Condition": "NeedWindowsInstance",
             "Type": "AWS::EC2::EIP",
+            "DeletionPolicy" : "Retain",
             "Properties": {
                 "Domain": "vpc"
             }
@@ -2325,6 +2358,7 @@
         "RDPInterface": {
             "Condition": "NeedWindowsInstance",
             "Type": "AWS::EC2::NetworkInterface",
+            "DeletionPolicy" : "Retain",
             "Properties": {
                 "SubnetId": {
                     "Ref": "DMZSubnet"
@@ -2347,6 +2381,7 @@
         "AssociateRDPEIP": {
             "Condition": "NeedWindowsInstance",
             "Type": "AWS::EC2::EIPAssociation",
+            "DeletionPolicy" : "Retain",
             "Properties": {
                 "AllocationId": {
                     "Fn::GetAtt": [
@@ -2362,6 +2397,7 @@
         "RDPInstance": {
             "Condition": "NeedWindowsInstance",
             "Type": "AWS::EC2::Instance",
+            "DeletionPolicy" : "Retain",
             "Properties": {
                 "NetworkInterfaces": [
                     {
@@ -2412,6 +2448,7 @@
         },
         "HANAMasterInstance": {
             "Type": "AWS::EC2::Instance",
+            "DeletionPolicy" : "Retain",
             "Metadata": {
                 "HostRole": "Master"
             },
@@ -2555,7 +2592,7 @@
                                 "\n",
                                 "export NO_PROXY=localhost,127.0.0.1,169.254.169.254",
                                 "\n",
-                                "wget https://s3.amazonaws.com/",
+                                "wget https://s3-ap-northeast-1.amazonaws.com/",
                                 {
                                     "Ref": "PrivateBucket"
                                 },
@@ -2809,7 +2846,6 @@
                                 },
                                 "\" \n",
                                 "#python /root/install/postprocess.py \n",
-                                "sh /root/install/cleanup.sh \n",
                                 "\n",
                                 "\n"
                             ]
@@ -2823,12 +2859,14 @@
         },
         "PlacementGroup": {
             "Type": "AWS::EC2::PlacementGroup",
+            "DeletionPolicy" : "Retain",
             "Properties": {
                 "Strategy": "cluster"
             }
         },
         "HANAWorkerInstance1": {
             "Type": "AWS::EC2::Instance",
+            "DeletionPolicy" : "Retain",
             "Condition": "TwoOrMoreNodes",
             "Metadata": {
                 "HostRole": "Worker"
@@ -2985,7 +3023,7 @@
                                 "\n",
                                 "export NO_PROXY=localhost,127.0.0.1,169.254.169.254",
                                 "\n",
-                                "wget https://s3.amazonaws.com/",
+                                "wget https://s3-ap-northeast-1.amazonaws.com/",
                                 {
                                     "Ref": "PrivateBucket"
                                 },
@@ -3207,6 +3245,7 @@
         },
         "HANAWorkerInstance2": {
             "Type": "AWS::EC2::Instance",
+            "DeletionPolicy" : "Retain",
             "Condition": "ThreeOrMoreNodes",
             "Metadata": {
                 "HostRole": "Worker"
@@ -3363,7 +3402,7 @@
                                 "\n",
                                 "export NO_PROXY=localhost,127.0.0.1,169.254.169.254",
                                 "\n",
-                                "wget https://s3.amazonaws.com/",
+                                "wget https://s3-ap-northeast-1.amazonaws.com/",
                                 {
                                     "Ref": "PrivateBucket"
                                 },
@@ -3585,6 +3624,7 @@
         },
         "HANAWorkerInstance3": {
             "Type": "AWS::EC2::Instance",
+            "DeletionPolicy" : "Retain",
             "Condition": "FourOrMoreNodes",
             "Metadata": {
                 "HostRole": "Worker"
@@ -3741,7 +3781,7 @@
                                 "\n",
                                 "export NO_PROXY=localhost,127.0.0.1,169.254.169.254",
                                 "\n",
-                                "wget https://s3.amazonaws.com/",
+                                "wget https://s3-ap-northeast-1.amazonaws.com/",
                                 {
                                     "Ref": "PrivateBucket"
                                 },
@@ -3963,6 +4003,7 @@
         },
         "HANAWorkerInstance4": {
             "Type": "AWS::EC2::Instance",
+            "DeletionPolicy" : "Retain",
             "Condition": "FiveOrMoreNodes",
             "Metadata": {
                 "HostRole": "Worker"
@@ -4119,7 +4160,7 @@
                                 "\n",
                                 "export NO_PROXY=localhost,127.0.0.1,169.254.169.254",
                                 "\n",
-                                "wget https://s3.amazonaws.com/",
+                                "wget https://s3-ap-northeast-1.amazonaws.com/",
                                 {
                                     "Ref": "PrivateBucket"
                                 },
@@ -4341,6 +4382,7 @@
         },
         "HANAWorkerInstance5": {
             "Type": "AWS::EC2::Instance",
+            "DeletionPolicy" : "Retain",
             "Condition": "SixOrMoreNodes",
             "Metadata": {
                 "HostRole": "Worker"
@@ -4497,7 +4539,7 @@
                                 "\n",
                                 "export NO_PROXY=localhost,127.0.0.1,169.254.169.254",
                                 "\n",
-                                "wget https://s3.amazonaws.com/",
+                                "wget https://s3-ap-northeast-1.amazonaws.com/",
                                 {
                                     "Ref": "PrivateBucket"
                                 },
@@ -4719,6 +4761,7 @@
         },
         "AutoRecoverAlarmMaster": {
             "Type": "AWS::CloudWatch::Alarm",
+            "DeletionPolicy" : "Retain",
             "Condition": "AutoRecoveryMaster",
             "Properties": {
                 "AlarmDescription": "Trigger a recovery when instance status check fails for 5 consecutive minute.",
@@ -4755,6 +4798,7 @@
         },
         "AutoRecoverAlarmWorker1": {
             "Type": "AWS::CloudWatch::Alarm",
+            "DeletionPolicy" : "Retain",
             "Condition": "AutoRecoveryWorker1",
             "Properties": {
                 "AlarmDescription": "Trigger a recovery when instance status check fails for 5 consecutive minutes.",
@@ -4791,6 +4835,7 @@
         },
         "AutoRecoverAlarmWorker2": {
             "Type": "AWS::CloudWatch::Alarm",
+            "DeletionPolicy" : "Retain",
             "Condition": "AutoRecoveryWorker2",
             "Properties": {
                 "AlarmDescription": "Trigger a recovery when instance status check fails for 5 consecutive minutes.",
@@ -4827,6 +4872,7 @@
         },
         "AutoRecoverAlarmWorker3": {
             "Type": "AWS::CloudWatch::Alarm",
+            "DeletionPolicy" : "Retain",
             "Condition": "AutoRecoveryWorker3",
             "Properties": {
                 "AlarmDescription": "Trigger a recovery when instance status check fails for 5 consecutive minutes.",
@@ -4863,6 +4909,7 @@
         },
         "AutoRecoverAlarmWorker4": {
             "Type": "AWS::CloudWatch::Alarm",
+            "DeletionPolicy" : "Retain",
             "Condition": "AutoRecoveryWorker4",
             "Properties": {
                 "AlarmDescription": "Trigger a recovery when instance status check fails for 5 consecutive minutes.",
@@ -4899,6 +4946,7 @@
         },
         "AutoRecoverAlarmWorker5": {
             "Type": "AWS::CloudWatch::Alarm",
+            "DeletionPolicy" : "Retain",
             "Condition": "AutoRecoveryWorker5",
             "Properties": {
                 "AlarmDescription": "Trigger a recovery when instance status check fails for 5 consecutive minutes.",
