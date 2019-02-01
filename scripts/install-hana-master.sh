@@ -79,8 +79,10 @@ fi
 # ------------------------------------------------------------------
 
 HANAMEDIA=$(/usr/bin/find /media -type d -name "DATA_UNITS")
-
-
+#CommentOut by dai to debug
+echo ${HANAMEDIA} >> ${HANA_LOG_FILE}
+HANAMEDIA='/media/extracted/51053381/DATA_UNITS'
+#CommentOut by dai to debug
 
 log() {
     echo $* 2>&1 | tee -a ${HANA_LOG_FILE}
@@ -152,7 +154,8 @@ else
 fi
 
 #Remove Password file
-rm $PASSFILE
+#CommentOut by dai to debug
+#rm $PASSFILE
 
 # ------------------------------------------------------------------
 #	   Post HANA install

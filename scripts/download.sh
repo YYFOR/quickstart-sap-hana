@@ -26,8 +26,8 @@ done
 shift $((OPTIND-1))
 [[ $# -gt 0 ]] && usage;
 
-DOWNLOADLINK=https://s3.amazonaws.com/${BUILD_BUCKET}
-DOWNLOADSTORAGE=https://s3.amazonaws.com/${STORAGE_BUCKET}
+DOWNLOADLINK=https://s3-ap-northeast-1.amazonaws.com/${BUILD_BUCKET}
+DOWNLOADSTORAGE=https://s3-ap-northeast-1.amazonaws.com/${STORAGE_BUCKET}
 
 # ------------------------------------------------------------------
 #          Download all the scripts needed for HANA install

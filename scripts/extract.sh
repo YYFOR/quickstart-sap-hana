@@ -32,9 +32,12 @@ source /root/install/config.sh
 EXE=$(/usr/bin/find ${COMPRESS_DIR}  -name '*.exe')
 
 mkdir -p ${EXTRACT_DIR}
-
+log "start unrar::::::"
 if command_exists unrar ; then
-	/usr/bin/unrar x ${EXE} ${EXTRACT_DIR}
+	#/usr/bin/unrar x ${EXE} ${EXTRACT_DIR}
+	log ${EXE}
+	log ${EXTRACT_DIR}
+	/usr/bin/unrar x /media/compressed/51053381_part1.exe /media/extracted/
 else
 
 # ------------------------------------------------------------------
@@ -54,3 +57,4 @@ else
 	#rpm -i /root/install/misc/unrar-5.0.3-1.el6.rf.x86_64.rpm
 	#/usr/bin/unrar x ${EXE} ${EXTRACT_DIR}
 fi
+log "end unrar::::::"

@@ -465,6 +465,32 @@ install_prereq_sles12sp3sap() {
   saptune solution apply HANA | tee -a ${HANA_LOG_FILE}
 
 }
+install_prereq_sles12sp4sap() {
+  # ------------------------------------------------------------------
+  #          Install all the pre-requisites for SAP HANA
+  # ------------------------------------------------------------------
+
+  log "`date` - Install / Update OS Packages## "
+  zypper -n install systemd 2>&1 | tee -a ${HANA_LOG_FILE}
+  zypper -n install tuned  | tee -a ${HANA_LOG_FILE}
+  zypper -n install saptune  | tee -a ${HANA_LOG_FILE}
+  zypper -n install cpupower  | tee -a ${HANA_LOG_FILE}
+  zypper -n install amazon-ssm-agent | tee -a ${HANA_LOG_FILE}
+  zypper -n install nvme-cli | tee -a ${HANA_LOG_FILE}
+  systemctl start amazon-ssm-agent | tee -a ${HANA_LOG_FILE}
+  #Install unrar for media extraction
+  zypper -n install unrar  | tee -a ${HANA_LOG_FILE}
+  # Apply all Recommended HANA settings with SAPTUNE
+  log "`date` - Start saptune daemon"
+  saptune daemon start | tee -a ${HANA_LOG_FILE}
+  log "`date` - Apply saptune HANA profile"
+  mkdir /etc/tuned/saptune # OSS Note 2205917
+  cp /usr/lib/tuned/saptune/tuned.conf /etc/tuned/saptune/tuned.conf # OSS Note 2205917
+  sed -i "/\[cpu\]/ a force_latency=70" /etc/tuned/saptune/tuned.conf # OSS Note 2205917
+  sed -i "s/script.sh/\/usr\/lib\/tuned\/saptune\/script.sh/" /etc/tuned/saptune/tuned.conf # OSS Note 2205917
+  saptune solution apply HANA | tee -a ${HANA_LOG_FILE}
+
+}
 
 install_prereq_sles15sap() {
   # ------------------------------------------------------------------
@@ -903,6 +929,13 @@ case "$MyOS" in
   SLES12SP3SAPHVM )
     log "`date` Start - Executing SLES 12 SP3 for SAP related pre-requisites"
     install_prereq_sles12sp3sap
+    set_clocksource
+    disable_hostname
+    enable_resize_to_from_nitro
+    log "`date` End - Executing SLES 12 SP3 for SAP related pre-requisites" ;;
+  SLES12SP4SAPHVM )
+    log "`date` Start - Executing SLES 12 SP4 for SAP related pre-requisites"
+    install_prereq_sles12sp4sap
     set_clocksource
     disable_hostname
     enable_resize_to_from_nitro

@@ -101,6 +101,13 @@ isSLES12SP3SAP() {
       echo 0
     fi
 }
+isSLES12SP4SAP() {
+    if [ "$MyOS" == "SLES12SP4SAPHVM" ]; then
+      echo 1
+    else
+      echo 0
+    fi
+}
 
 isSLES15SAP() {
     if [ "$MyOS" == "SLES15SAPHVM" ]; then
