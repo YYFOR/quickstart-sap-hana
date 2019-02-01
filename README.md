@@ -1,5 +1,5 @@
 # updated 2019/02/01 from BeeX
-# add support for [SLES12SP4 FOR SAP] 
+# add support for [SLES12SP4 FOR SAP] SUSE Linux Enterprise Server for SAP Applications 12 SP4
 # updated 2019/02/01 from BeeX
 # quickstart-sap-hana
 ## SAP HANA on the AWS Cloud
