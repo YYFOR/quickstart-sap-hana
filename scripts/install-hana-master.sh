@@ -154,8 +154,7 @@ else
 fi
 
 #Remove Password file
-#CommentOut by dai to debug
-#rm $PASSFILE
+rm $PASSFILE
 
 # ------------------------------------------------------------------
 #	   Post HANA install
