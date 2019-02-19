@@ -2592,11 +2592,11 @@
                                 "\n",
                                 "export NO_PROXY=localhost,127.0.0.1,169.254.169.254",
                                 "\n",
-                                "wget https://s3-ap-northeast-1.amazonaws.com/",
+                                "aws s3 cp s3://",
                                 {
                                     "Ref": "PrivateBucket"
                                 },
-                                "/scripts/download.sh --output-document=/root/install/download.sh\n",
+                                "/scripts/download.sh /root/install/download.sh\n",
                                 "sh /root/install/download.sh -b ",
                                 {
                                     "Ref": "PrivateBucket"
