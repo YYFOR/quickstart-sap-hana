@@ -26,42 +26,45 @@ done
 shift $((OPTIND-1))
 [[ $# -gt 0 ]] && usage;
 
-DOWNLOADLINK=https://s3-ap-northeast-1.amazonaws.com/${BUILD_BUCKET}
-DOWNLOADSTORAGE=https://s3-ap-northeast-1.amazonaws.com/${STORAGE_BUCKET}
+#DOWNLOADLINK=https://s3-ap-northeast-1.amazonaws.com/${BUILD_BUCKET}
+#DOWNLOADSTORAGE=https://s3-ap-northeast-1.amazonaws.com/${STORAGE_BUCKET}
+DOWNLOADLINK=s3://${BUILD_BUCKET}
+DOWNLOADSTORAGE=s3://${STORAGE_BUCKET}
+
 
 # ------------------------------------------------------------------
 #          Download all the scripts needed for HANA install
 # ------------------------------------------------------------------
 
-wget ${DOWNLOADLINK}/scripts/cluster-watch-engine.sh --output-document=/root/install/cluster-watch-engine.sh
-wget ${DOWNLOADLINK}/scripts/install-prereq.sh --output-document=/root/install/install-prereq.sh
-wget ${DOWNLOADLINK}/scripts/install-prereq-sles.sh --output-document=/root/install/install-prereq-sles.sh
-wget ${DOWNLOADLINK}/scripts/install-prereq-rhel.sh --output-document=/root/install/install-prereq-rhel.sh
-wget ${DOWNLOADLINK}/scripts/install-aws.sh --output-document=/root/install/install-aws.sh
-wget ${DOWNLOADLINK}/scripts/install-master.sh  --output-document=/root/install/install-master.sh
-wget ${DOWNLOADLINK}/scripts/install-hana-master.sh --output-document=/root/install/install-hana-master.sh
-wget ${DOWNLOADLINK}/scripts/install-worker.sh --output-document=/root/install/install-worker.sh
-wget ${DOWNLOADLINK}/scripts/install-hana-worker.sh --output-document=/root/install/install-hana-worker.sh
-wget ${DOWNLOADLINK}/scripts/reconcile-ips.py --output-document=/root/install/reconcile-ips.py
-wget ${DOWNLOADLINK}/scripts/reconcile-ips.sh --output-document=/root/install/reconcile-ips.sh
-wget ${DOWNLOADLINK}/scripts/wait-for-master.sh --output-document=/root/install/wait-for-master.sh
-wget ${DOWNLOADLINK}/scripts/wait-for-workers.sh --output-document=/root/install/wait-for-workers.sh
-wget ${DOWNLOADLINK}/scripts/config.sh --output-document=/root/install/config.sh
-wget ${DOWNLOADLINK}/scripts/cleanup.sh --output-document=/root/install/cleanup.sh
-wget ${DOWNLOADLINK}/scripts/fence-cluster.sh --output-document=/root/install/fence-cluster.sh
-wget ${DOWNLOADLINK}/scripts/signal-complete.sh --output-document=/root/install/signal-complete.sh
-wget ${DOWNLOADLINK}/scripts/signal-failure.sh --output-document=/root/install/signal-failure.sh
-wget ${DOWNLOADLINK}/scripts/interruptq.sh --output-document=/root/install/interruptq.sh
-wget ${DOWNLOADLINK}/scripts/os.sh --output-document=/root/install/os.sh
-wget ${DOWNLOADLINK}/scripts/validate-install.sh --output-document=/root/install/validate-install.sh
-wget ${DOWNLOADLINK}/scripts/signalFinalStatus.sh --output-document=/root/install/signalFinalStatus.sh
-wget ${DOWNLOADLINK}/scripts/writeconfig.sh --output-document=/root/install/writeconfig.sh
-wget ${DOWNLOADLINK}/scripts/create-attach-volume.sh --output-document=/root/install/create-attach-volume.sh
-wget ${DOWNLOADLINK}/scripts/configureVol.sh --output-document=/root/install/configureVol.sh
-wget ${DOWNLOADLINK}/scripts/create-attach-single-volume.sh --output-document=/root/install/create-attach-single-volume.sh
-wget ${DOWNLOADSTORAGE}/storage.json --output-document=/root/install/storage.json
+aws s3 cp ${DOWNLOADLINK}/scripts/cluster-watch-engine.sh /root/install/cluster-watch-engine.sh
+aws s3 cp ${DOWNLOADLINK}/scripts/install-prereq.sh /root/install/install-prereq.sh
+aws s3 cp ${DOWNLOADLINK}/scripts/install-prereq-sles.sh /root/install/install-prereq-sles.sh
+aws s3 cp ${DOWNLOADLINK}/scripts/install-prereq-rhel.sh /root/install/install-prereq-rhel.sh
+aws s3 cp ${DOWNLOADLINK}/scripts/install-aws.sh /root/install/install-aws.sh
+aws s3 cp ${DOWNLOADLINK}/scripts/install-master.sh  /root/install/install-master.sh
+aws s3 cp ${DOWNLOADLINK}/scripts/install-hana-master.sh /root/install/install-hana-master.sh
+aws s3 cp ${DOWNLOADLINK}/scripts/install-worker.sh /root/install/install-worker.sh
+aws s3 cp ${DOWNLOADLINK}/scripts/install-hana-worker.sh /root/install/install-hana-worker.sh
+aws s3 cp ${DOWNLOADLINK}/scripts/reconcile-ips.py /root/install/reconcile-ips.py
+aws s3 cp ${DOWNLOADLINK}/scripts/reconcile-ips.sh /root/install/reconcile-ips.sh
+aws s3 cp ${DOWNLOADLINK}/scripts/wait-for-master.sh /root/install/wait-for-master.sh
+aws s3 cp ${DOWNLOADLINK}/scripts/wait-for-workers.sh /root/install/wait-for-workers.sh
+aws s3 cp ${DOWNLOADLINK}/scripts/config.sh /root/install/config.sh
+aws s3 cp ${DOWNLOADLINK}/scripts/cleanup.sh /root/install/cleanup.sh
+aws s3 cp ${DOWNLOADLINK}/scripts/fence-cluster.sh /root/install/fence-cluster.sh
+aws s3 cp ${DOWNLOADLINK}/scripts/signal-complete.sh /root/install/signal-complete.sh
+aws s3 cp ${DOWNLOADLINK}/scripts/signal-failure.sh /root/install/signal-failure.sh
+aws s3 cp ${DOWNLOADLINK}/scripts/interruptq.sh /root/install/interruptq.sh
+aws s3 cp ${DOWNLOADLINK}/scripts/os.sh /root/install/os.sh
+aws s3 cp ${DOWNLOADLINK}/scripts/validate-install.sh /root/install/validate-install.sh
+aws s3 cp ${DOWNLOADLINK}/scripts/signalFinalStatus.sh /root/install/signalFinalStatus.sh
+aws s3 cp ${DOWNLOADLINK}/scripts/writeconfig.sh /root/install/writeconfig.sh
+aws s3 cp ${DOWNLOADLINK}/scripts/create-attach-volume.sh /root/install/create-attach-volume.sh
+aws s3 cp ${DOWNLOADLINK}/scripts/configureVol.sh /root/install/configureVol.sh
+aws s3 cp ${DOWNLOADLINK}/scripts/create-attach-single-volume.sh /root/install/create-attach-single-volume.sh
+aws s3 cp ${DOWNLOADSTORAGE}/storage.json /root/install/storage.json
 
 for f in download_media.py extract.sh get_advancedoptions.py postprocess.py signal-precheck-failure.sh signal-precheck-status.sh signal-precheck-success.sh build_storage.py
 do
-    wget ${DOWNLOADLINK}/scripts/${f} --output-document=/root/install/${f}
+    aws s3 cp ${DOWNLOADLINK}/scripts/${f} /root/install/${f}
 done
